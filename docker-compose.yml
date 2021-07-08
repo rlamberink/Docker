@@ -4,18 +4,20 @@ services:
   postgres:
     image: postgres:12-alpine
     volumes:
-      - /var/lib/postgresql/data
+      - ./postgresql/data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     restart: always
+    ports:
+      - 5432:5432
   cachet:
     build:
       context: .
       args:
         - cachet_ver=2.4
     ports:
-      - 80:8000
+      - 8081:8000
     links:
       - postgres:postgres
     environment:
